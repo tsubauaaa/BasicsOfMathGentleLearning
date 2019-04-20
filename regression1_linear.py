@@ -63,4 +63,6 @@ x = np.linspace(-3, 3, 100)
 plt.plot(train_z, train_y, 'o')
 plt.plot(x, f(x))
 plt.show()
+
+# 学習後のthetaで検証
 # print(f(standardize(300)))
