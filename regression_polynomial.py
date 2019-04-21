@@ -28,16 +28,16 @@ theta = np.random.rand(3)
 def to_matrix(x):
     return np.vstack([np.ones(x.shape[0]), x, x ** 2]).T
 
-X = to_matrix(train_z)
-
-# 予測関数
-# f^T.
-def f(x):
-    return np.dot(x, theta)
-
 # 目的関数
 def E(x, y):
     return 0.5 * np.sum((y - f(x)) ** 2)
+
+# 予測関数
+# f_theta(x) = X.theta
+def f(x):
+    return np.dot(x, theta)
+
+X = to_matrix(train_z)
 
 # 誤差の差分
 diff = 1
