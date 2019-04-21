@@ -21,8 +21,15 @@ train_z = standardize(train_x)
 # 学習率
 ETA = 1e-3
 
+# 平均二乗誤差
+def MSE(x, y):
+    return (1 / x.shape[0]) * np.sum((y - f(x)) ** 2)
+
 # パラメータをランダムに初期化
 theta = np.random.rand(3)
+
+# 平均二乗誤差の履歴
+errors = []
 
 # 学習データの[1, x, x^2]の行列を作る
 def to_matrix(x):
@@ -43,17 +50,16 @@ X = to_matrix(train_z)
 diff = 1
 
 # 学習を繰り返す
-error = E(X, train_y)
+errors.append(MSE(X, train_y))
 while diff > 1e-2:
     # パラメータを更新
     theta = theta - ETA * np.dot(f(X) - train_y, X)
     # 前回の誤差との差分を計算
-    current_error = E(X, train_y)
-    diff = error - current_error
-    error = current_error
+    errors.append(MSE(X, train_y))
+    diff = errors[-2] - errors[-1]
 
-x = np.linspace(-3, 3, 100)
+# 誤差をプロット
+x = np.arange(len(errors))
 
-plt.plot(train_z, train_y, 'o')
-plt.plot(x, f(to_matrix(x)))
+plt.plot(x, errors)
 plt.show()
