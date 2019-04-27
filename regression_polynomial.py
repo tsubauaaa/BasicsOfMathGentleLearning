@@ -1,43 +1,38 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# 学習データを行列として読み込む
+# 学習データを読み込む
 train = np.loadtxt('click.csv', delimiter=',', skiprows=1)
-
-# 1列目の抽出
 train_x = train[:,0]
-# 2列目の抽出
 train_y = train[:,1]
 
-# 標準化
-def standardize(x):
-    mu = train_x.mean()
-    sigma = train_x.std()
-    return (x - mu) / sigma
-
-# 1列目の標準化
-train_z = standardize(train_x)
-
-# 学習率
-ETA = 1e-3
-
-# パラメータをランダムに初期化
+# パラメータを初期化
 theta = np.random.rand(3)
 
-# 学習データの[1, x, x^2]の行列を作る
+# 学習データの行列を作る
 def to_matrix(x):
     return np.vstack([np.ones(x.shape[0]), x, x ** 2]).T
+
+# 予測関数
+def f(x):
+    return np.dot(x, theta)
 
 # 目的関数
 def E(x, y):
     return 0.5 * np.sum((y - f(x)) ** 2)
 
-# 予測関数
-# f_theta(x) = X.theta
-def f(x):
-    return np.dot(x, theta)
+# 標準化
+mu = train_x.mean()
+sigma = train_x.std()
+def standardize(x):
+    return (x -mu) / sigma
+
+train_z = standardize(train_x)
 
 X = to_matrix(train_z)
+
+# 学習率
+ETA = 1e-3
 
 # 誤差の差分
 diff = 1
