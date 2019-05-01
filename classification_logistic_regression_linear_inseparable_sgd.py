@@ -27,7 +27,7 @@ X = to_matrix(train_z)
 
 # シグモイド関数
 def f(x):
-    return 1 / (1 + np.exp(-np.dot(x, theta)))
+    return 1 / (1 * np.exp(-np.dot(x, theta)))
 
 # 学習率
 ETA = 1e-3
@@ -35,36 +35,17 @@ ETA = 1e-3
 # 繰り返し回数
 epoch = 5000
 
-# 精度の履歴
-accuracies = []
-
-# 分類関数
-def classify(x):
-    return (f(x) >= 0.5).astype(np.int)
-
 # 学習を繰り返す
 for _ in range(epoch):
     # 確率的勾配降下法でパラメータ更新
     p = np.random.permutation(X.shape[0])
-    print(p)
     for x, y in zip(X[p,:], train_y[p]):
         theta = theta - ETA * (f(x) - y) * x
-    # 現在の精度を計算
-    result = classify(X) == train_y
-    accuracy = len(result[result == True]) / len(result)
-    accuracies.append(accuracy)
 
 x1 = np.linspace(-2, 2, 100)
 x2 = -(theta[0] + theta[1] * x1 + theta[3] * x1 **2) / theta[2]
 
-# プロット
 plt.plot(train_z[train_y == 1, 0], train_z[train_y == 1, 1], 'o')
 plt.plot(train_z[train_y == 0, 0], train_z[train_y == 0, 1], 'x')
 plt.plot(x1, x2, linestyle='dashed')
-plt.show()
-
-x = np.arange(len(accuracies))
-
-# 精度をプロット
-plt.plot(x, accuracies)
 plt.show()

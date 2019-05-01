@@ -31,8 +31,6 @@ for _ in range(epoch):
     count += 1
     print('{}回目: w = {}'.format(count, w))
 
-# print(f([400,200]))
-
 # プロット
 x1 = np.arange(0, 500)
 plt.plot(train_x[train_y == 1, 0], train_x[train_y == 1, 1], 'o')
