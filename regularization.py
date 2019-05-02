@@ -13,7 +13,7 @@ train_y = g(train_x) + np.random.randn(train_x.size) * 0.05
 mu = train_x.mean()
 sigma = train_x.std()
 def standardize(x):
-    return (x -mu) / sigma
+    return (x - mu) / sigma
 
 train_z = standardize(train_x)
 
@@ -52,23 +52,17 @@ ETA = 1e-4
 # 誤差
 diff = 1
 
-# 学習を繰り返えす
+# 学習を繰り返す
 error = E(X, train_y)
 while diff > 1e-6:
     theta = theta - ETA * np.dot(f(X) - train_y, X)
     current_error = E(X, train_y)
     diff = error - current_error
-    error = current_error
-
-x = np.linspace(-2, 2, 100)
-z = standardize(x)
-plt.plot(train_x, train_y, 'o')
-plt.plot(z, f(to_matrix(z)))
-plt.show()
+    error  = current_error
 
 # 正則化なしのパラメータを保存して再度パラメータ初期化
 theta1 = theta
-theta = np.random.rand(X.shape[1])
+theta = np.random.randn(X.shape[1])
 
 # 正則化定数
 LAMBDA = 1
@@ -87,14 +81,11 @@ while diff > 1e-6:
     diff = error - current_error
     error = current_error
 
-plt.plot(train_x, train_y, 'o')
-plt.plot(z, f(to_matrix(z)))
-plt.show()
-
 # 正則化ありのパラメータを保存
 theta2 = theta
 
-plt.plot(train_x, train_y, 'o')
+x = np.linspace(-2, 2, 100)
+z = standardize(x)
 
 # 正則化なしの結果をプロット
 theta = theta1
