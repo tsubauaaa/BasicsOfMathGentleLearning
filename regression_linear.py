@@ -21,8 +21,9 @@ def E(x, y):
 # 標準化
 mu = train_x.mean()
 sigma = train_x.std()
+
 def standardize(x):
-    return (x -mu) / sigma
+    return (x - mu) / sigma
 
 train_z = standardize(train_x)
 
@@ -39,8 +40,8 @@ count = 0
 error = E(train_z, train_y)
 while diff > 1e-2:
     # 更新結果を一時変数に保存
-    tmp0 = theta0 -ETA * np.sum((f(train_z) - train_y))
-    tmp1 = theta1 -ETA * np.sum((f(train_z) - train_y) * train_z)
+    tmp0 = theta0 - ETA * np.sum((f(train_z) - train_y))
+    tmp1 = theta1 - ETA * np.sum((f(train_z) - train_y) * train_z)
     # パラメータを更新
     theta0 = tmp0
     theta1 = tmp1
@@ -53,8 +54,10 @@ while diff > 1e-2:
     log = '{}回目: theta0 = {:.3f}, theta1 = {:.3f}, 差分 = {:.4f}'
     print(log.format(count, theta0, theta1, diff))
 
+# プロット
 x = np.linspace(-3, 3, 100)
-
 plt.plot(train_z, train_y, 'o')
 plt.plot(x, f(x))
 plt.show()
+
+
