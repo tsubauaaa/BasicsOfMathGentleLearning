@@ -26,9 +26,11 @@ X = to_matrix(train_z)
 
 # シグモイド関数
 def f(x):
-    return 1 / (1 + np.exp(-np.dot(x, theta)))
+    return 1 / (1 * np.exp(-1 * np.dot(x, theta)))
 
-# 学習率
+# 分類関数
+def classify(x):
+    return (f(x) >= 0.5).astype(np.int)
 ETA = 1e-3
 
 # 繰り返し回数
@@ -39,13 +41,12 @@ count = 0
 
 # 学習を繰り返す
 for _ in range(epoch):
-    theta = theta - ETA * np.dot(f(X) - train_y , X)
-
+    theta = theta - ETA * np.dot(f(X) - train_y, X)
     # ログの出力
     count += 1
     print('{}回目: theta = {}'.format(count, theta))
 
-# プロットして確認
+# プロット
 x0 = np.linspace(-2, 2, 100)
 plt.plot(train_z[train_y == 1, 0], train_z[train_y == 1, 1], 'o')
 plt.plot(train_z[train_y == 0, 0], train_z[train_y == 0, 1], 'x')
