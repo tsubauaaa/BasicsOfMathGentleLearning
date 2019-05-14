@@ -9,9 +9,20 @@ train_y = train[:,1]
 # パラメータを初期化
 theta = np.random.rand(3)
 
+# 標準化
+mu = train_x.mean()
+sigma = train_x.std()
+
+def standardize(x):
+    return (x - mu) / sigma
+
+train_z = standardize(train_x)
+
 # 学習データの行列を作る
 def to_matrix(x):
     return np.vstack([np.ones(x.shape[0]), x, x ** 2]).T
+
+X = to_matrix(train_z)
 
 # 予測関数
 def f(x):
@@ -20,16 +31,6 @@ def f(x):
 # 目的関数
 def E(x, y):
     return 0.5 * np.sum((y - f(x)) ** 2)
-
-# 標準化
-mu = train_x.mean()
-sigma = train_x.std()
-def standardize(x):
-    return (x -mu) / sigma
-
-train_z = standardize(train_x)
-
-X = to_matrix(train_z)
 
 # 学習率
 ETA = 1e-3
@@ -47,8 +48,10 @@ while diff > 1e-2:
     diff = error - current_error
     error = current_error
 
+# プロット
 x = np.linspace(-3, 3, 100)
-
 plt.plot(train_z, train_y, 'o')
 plt.plot(x, f(to_matrix(x)))
 plt.show()
+
+
