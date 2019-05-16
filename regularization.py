@@ -66,3 +66,44 @@ z = standardize(x)
 plt.plot(train_z, train_y, 'o')
 plt.plot(z, f(to_matrix(z)))
 plt.show()
+
+# 正則化なしのパラメータを保存して再度パラメータ初期化
+theta1 = theta
+theta = np.random.randn(X.shape[1])
+
+# 正則化定数
+LAMBDA = 1
+
+# 誤差
+diff = 1
+
+# 学習を繰り返す(正則化項つき)
+error = E(X, train_y)
+while diff > 1e-6:
+    # 正則化項。バイアス項は正則化を適用しないので0にする
+    reg_term = LAMBDA * np.hstack([0, theta[1:]])
+    # 正則化項を適用してパラメータを更新する
+    theta = theta - ETA * (np.dot(f(X) - train_y, X) + reg_term)
+    current_error = E(X, train_y)
+    diff = error - current_error
+    error = current_error
+
+# 結果をプロット
+plt.plot(train_z, train_y, 'o')
+plt.plot(z, f(to_matrix(z)))
+plt.show()
+
+# 正則化ありのパラメータを保存
+theta2 = theta
+
+plt.plot(train_z, train_y, 'o')
+
+# 正則化なしの結果をプロット
+theta = theta1
+plt.plot(z, f(to_matrix(z)), linestyle='dashed')
+
+# 正則化ありの結果をプロット
+theta = theta2
+plt.plot(z, f(to_matrix(z)))
+
+plt.show()
