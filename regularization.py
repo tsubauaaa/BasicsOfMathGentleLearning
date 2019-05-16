@@ -61,7 +61,8 @@ while diff > 1e-6:
     error = current_error
 
 # 結果をプロット
-z = standardize(X)
+x = np.linspace(-2, 2, 100)
+z = standardize(x)
 plt.plot(train_z, train_y, 'o')
 plt.plot(z, f(to_matrix(z)))
 plt.show()
