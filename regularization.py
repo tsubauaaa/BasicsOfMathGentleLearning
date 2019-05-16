@@ -9,9 +9,59 @@ def g(x):
 train_x = np.linspace(-2, 2, 8)
 train_y = g(train_x) + np.random.randn(train_x.size) * 0.05
 
-# プロットして確認
-x = np.linspace(-2, 2, 100)
-plt.plot(train_x, train_y, 'o')
-plt.plot(x, g(x), linestyle='dashed')
-plt.ylim(-1, 2)
+# 標準化
+mu = train_x.mean()
+sigma = train_x.std()
+def standardize(x):
+    return (x - mu) / sigma
+
+train_z = standardize(train_x)
+
+# 学習データの行列を作る
+def to_matrix(x):
+    return np.vstack([
+        np.ones(x.size),
+        x,
+        x ** 2,
+        x ** 3,
+        x ** 4,
+        x ** 5,
+        x ** 6,
+        x ** 7,
+        x ** 8,
+        x ** 9,
+        x ** 10,
+    ]).T
+
+X = to_matrix(train_z)
+
+# パラメータの初期化
+theta = np.random.randn(X.shape[1])
+
+# 予測関数
+def f(x):
+    return np.dot(x, theta)
+
+# 目的関数
+def E(x, y):
+    return 0.5 * np.sum((y - f(x)) ** 2)
+
+# 学習率
+ETA = 1e-4
+
+# 誤差
+diff = 1
+
+# 学習を繰り返す
+error = E(X, train_y)
+while diff > 1e-6:
+    theta = theta - ETA * np.dot(f(X) - train_y, X)
+    current_error = E(X, train_y)
+    diff = error - current_error
+    error = current_error
+
+# 結果をプロット
+z = standardize(X)
+plt.plot(train_z, train_y, 'o')
+plt.plot(z, f(to_matrix(z)))
 plt.show()
