@@ -27,7 +27,7 @@ X = to_matrix(train_z)
 
 # シグモイド関数
 def f(x):
-    return 1 / (1 * np.exp(-np.dot(x, theta)))
+    return 1 / (1 + np.exp(-1 * np.dot(x, theta)))
 
 # 学習率
 ETA = 1e-3

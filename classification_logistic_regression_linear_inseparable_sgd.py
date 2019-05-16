@@ -27,7 +27,7 @@ X = to_matrix(train_z)
 
 # シグモイド関数
 def f(x):
-    return 1 / (1 * np.exp(-np.dot(x, theta)))
+    return 1 / (1 + np.exp(-1 * np.dot(x, theta)))
 
 # 学習率
 ETA = 1e-3
@@ -39,7 +39,7 @@ epoch = 5000
 for _ in range(epoch):
     # 確率的勾配降下法でパラメータ更新
     p = np.random.permutation(X.shape[0])
-    for x, y in zip(X[p,:], train_y[p]):
+    for x, y in zip(X[p,:], train_y[p]):    
         theta = theta - ETA * (f(x) - y) * x
 
 x1 = np.linspace(-2, 2, 100)
