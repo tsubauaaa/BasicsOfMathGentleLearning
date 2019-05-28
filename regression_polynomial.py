@@ -6,7 +6,7 @@ train = np.loadtxt('click.csv', delimiter=',', skiprows=1)
 train_x = train[:,0]
 train_y = train[:,1]
 
-# パラメータを初期化
+# パラメータの初期化
 theta = np.random.rand(3)
 
 # 標準化
@@ -32,11 +32,11 @@ def f(x):
 def E(x, y):
     return 0.5 * np.sum((y - f(x)) ** 2)
 
-# 学習率
-ETA = 1e-3
-
 # 誤差の差分
 diff = 1
+
+# 学習率
+ETA = 1e-3
 
 # 学習を繰り返す
 error = E(X, train_y)
@@ -46,12 +46,12 @@ while diff > 1e-2:
     # 前回の誤差との差分を計算
     current_error = E(X, train_y)
     diff = error - current_error
+    print(diff)
     error = current_error
 
 # プロット
 x = np.linspace(-3, 3, 100)
+
 plt.plot(train_z, train_y, 'o')
 plt.plot(x, f(to_matrix(x)))
 plt.show()
-
-

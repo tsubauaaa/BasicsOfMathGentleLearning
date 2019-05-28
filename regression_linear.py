@@ -10,6 +10,8 @@ train_y = train[:,1]
 theta0 = np.random.rand()
 theta1 = np.random.rand()
 
+print(theta0)
+
 # 予測関数
 def f(x):
     return theta0 + theta1 * x
@@ -18,10 +20,9 @@ def f(x):
 def E(x, y):
     return 0.5 * np.sum((y - f(x)) ** 2)
 
-# 標準化
 mu = train_x.mean()
 sigma = train_x.std()
-
+# 標準化
 def standardize(x):
     return (x - mu) / sigma
 
@@ -51,13 +52,12 @@ while diff > 1e-2:
     error = current_error
     # ログの出力
     count += 1
-    log = '{}回目: theta0 = {:.3f}, theta1 = {:.3f}, 差分 = {:.4f}'
+    log = '{}回目： theta0 = {:.3f}, theta1 = {:.3f}, 差分 = {:.4f}'
     print(log.format(count, theta0, theta1, diff))
 
 # プロット
 x = np.linspace(-3, 3, 100)
+
 plt.plot(train_z, train_y, 'o')
 plt.plot(x, f(x))
 plt.show()
-
-
