@@ -27,12 +27,13 @@ for _ in range(epoch):
     for x, y in zip(train_x, train_y):
         if f(x) != y:
             w = w + y * x
-    # ログの出力
+            # ログの出力
     count += 1
     print('{}回目: w = {}'.format(count, w))
 
 # プロット
 x1 = np.arange(0, 500)
+
 plt.plot(train_x[train_y == 1, 0], train_x[train_y == 1, 1], 'o')
 plt.plot(train_x[train_y == -1, 0], train_x[train_y == -1, 1], 'x')
 plt.plot(x1, -w[0] / w[1] * x1, linestyle='dashed')
