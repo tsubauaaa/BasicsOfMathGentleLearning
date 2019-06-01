@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def g(x):
     return 0.1 * (x ** 3 + x ** 2 + x)
 
-# 真の関数にノイズを加えた学習データを適当な数だけ用意する
+# 真の関数にノイズを加えた楽手データを適当な数だけ用意する
 train_x = np.linspace(-2, 2, 8)
 train_y = g(train_x) + np.random.randn(train_x.size) * 0.05
 
@@ -62,10 +62,15 @@ while diff > 1e-6:
 
 # 結果をプロット
 x = np.linspace(-2, 2, 100)
+# plt.plot(train_x, train_y, 'o')
+# plt.plot(x, g(x), linestyle='dashed')
+# plt.ylim(-1, 2)
+# plt.show()
+
 z = standardize(x)
-plt.plot(train_z, train_y, 'o')
-plt.plot(z, f(to_matrix(z)))
-plt.show()
+# plt.plot(train_z, train_y, 'o')
+# plt.plot(z, f(to_matrix(z)))
+# plt.show()
 
 # 正則化なしのパラメータを保存して再度パラメータ初期化
 theta1 = theta
@@ -89,9 +94,9 @@ while diff > 1e-6:
     error = current_error
 
 # 結果をプロット
-plt.plot(train_z, train_y, 'o')
-plt.plot(z, f(to_matrix(z)))
-plt.show()
+# plt.plot(train_z, train_y, 'o')
+# plt.plot(z, f(to_matrix(z)))
+# plt.show()
 
 # 正則化ありのパラメータを保存
 theta2 = theta
