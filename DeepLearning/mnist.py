@@ -70,7 +70,7 @@ np.random.seed(0)
 W1 = np.random.randn(32, 1, 5, 5) * math.sqrt(2 / (1 * 5 * 5))
 W2 = np.random.randn(64, 32, 5, 5) * math.sqrt(2 / (32 * 5 * 5))
 W3 = np.random.randn(200, 64 * 7 * 7) * math.sqrt(2 / (64 * 7 * 7))
-W4 = np.random.randn(10, 200)
+W4 = np.random.randn(10, 200) * math.sqrt(2 / 200)
 b1 = np.zeros(32)
 b2 = np.zeros(64)
 b3 = np.zeros(200)
@@ -221,14 +221,14 @@ def delta_conv(P, D, W, s, p):
 
 
 # Max Poolingの逆伝播
-def backward_max_pooling(im_shape, PI, D, f, s):
+def backward_max_pooling(im_shape, PI, D, fh, fw, s):
     # フィルタの高さ×幅ごとのユニットを横に並べてゼロ埋めする
     N, C, H, W = im_shape
-    col_D = np.zeros(N * C * H * W).reshape(-1, f * f)
+    col_D = np.zeros(N * C * H * W).reshape(-1, fh * fw)
     # プーリングで選ばれたインデックスの位置にデルタを戻す
     col_D[np.arange(PI.size), PI] = D.flatten()
     # それをcol2im変換してim形式に戻す
-    return col2im(col_D, im_shape, f, f, s)
+    return col2im(col_D, im_shape, fh, fw, s)
 
 
 # 逆伝播
@@ -236,9 +236,9 @@ def backward(Y, X4, Z3, X2, PI2, Z2, X1, PI1, Z1):
     D4 = delta_output(Y, X4)
     D3 = delta_hidden(Z3, D4, W4)
     D2 = delta_hidden(X2, D3, W3)
-    D2 = backward_max_pooling(Z2.shape, PI2, D2, f=2, s=2)
+    D2 = backward_max_pooling(Z2.shape, PI2, D2, fh=2, fw=2, s=2)
     D1 = delta_conv(X1, D2, W2, s=1, p=2)
-    D1 = backward_max_pooling(Z1.shape, PI1, D1, f=2, s=2)
+    D1 = backward_max_pooling(Z1.shape, PI1, D1, fh=2, fw=2, s=2)
     return D4, D3, D2, D1
 
 
